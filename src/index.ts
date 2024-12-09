@@ -98,26 +98,28 @@ export const createSecureHeaders = (options: Options = {}) => {
 
 type NextPageContext = { res?: ServerResponse };
 type NextAppContext = { ctx?: NextPageContext };
-type NextComponent<P = any, IP = {}> = React.ComponentType<P> & {
+type NextComponent<P = any, IP = object> = React.ComponentType<P> & {
   getInitialProps?(context: NextPageContext & NextAppContext): IP | Promise<IP>;
 };
 
-export const withSecureHeaders = (options: Options = {}) => (ChildComponent: NextComponent) => {
-  const Component: NextComponent = (props: any) => React.createElement(ChildComponent, props);
+export const withSecureHeaders =
+  (options: Options = {}) =>
+  (ChildComponent: NextComponent) => {
+    const Component: NextComponent = (props: any) => React.createElement(ChildComponent, props);
 
-  Component.getInitialProps = async (context) => {
-    if (context == undefined) throw new Error("Cannnot find a context in getInitialProps");
+    Component.getInitialProps = async (context) => {
+      if (context == undefined) throw new Error("Cannnot find a context in getInitialProps");
 
-    const initialProps = (await ChildComponent.getInitialProps?.(context)) ?? {};
-    const res = context.res ?? context.ctx?.res;
-    if (res == undefined) return initialProps;
-    if (res.headersSent) return initialProps;
+      const initialProps = (await ChildComponent.getInitialProps?.(context)) ?? {};
+      const res = context.res ?? context.ctx?.res;
+      if (res == undefined) return initialProps;
+      if (res.headersSent) return initialProps;
 
-    const headers = createHeadersObject(options);
-    Object.entries(headers).forEach(([name, value]) => res.setHeader(name, value));
+      const headers = createHeadersObject(options);
+      Object.entries(headers).forEach(([name, value]) => res.setHeader(name, value));
 
-    return initialProps;
+      return initialProps;
+    };
+
+    return Component;
   };
-
-  return Component;
-};

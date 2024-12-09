@@ -194,7 +194,7 @@ export const convertReportingDirectiveToString = (directive?: Partial<ReportingD
 
   const reportURIValue = directive.reportURI ?? directive["report-uri"];
   if (reportURIValue != undefined) {
-    const reportURI = wrapArray(reportURIValue).map(encodeStrictURI);
+    const reportURI = wrapArray(reportURIValue);
     strings.push(createDirectiveValue("report-uri", reportURI));
   }
   const reportTo = directive.reportTo ?? directive["report-to"];

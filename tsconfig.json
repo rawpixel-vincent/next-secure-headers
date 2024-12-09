@@ -6,10 +6,7 @@
     "baseUrl": "./",
     "declaration": true,
     "jsx": "preserve",
-    "lib": [
-      "es2020",
-      "dom"
-    ],
+    "lib": ["es2020", "dom"],
     "module": "commonjs",
     "moduleResolution": "node",
     "outDir": "./lib",
@@ -20,11 +17,6 @@
     "strict": true,
     "target": "es2015"
   },
-  "include": [
-    "./src/**/*"
-  ],
-  "exclude": [
-    "node_modules",
-    "./src/**/*.spec.ts"
-  ]
+  "include": ["./src/**/*"],
+  "exclude": ["node_modules", "./src/**/*.spec.ts", "./lib"]
 }

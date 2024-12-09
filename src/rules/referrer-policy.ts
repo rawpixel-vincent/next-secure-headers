@@ -10,7 +10,7 @@ const supportedValues = [
   "strict-origin",
   "strict-origin-when-cross-origin",
 ] as const;
-type SupportedValue = typeof supportedValues[number];
+type SupportedValue = (typeof supportedValues)[number];
 export type ReferrerPolicyOption = false | SupportedValue | SupportedValue[];
 
 const headerName = "Referrer-Policy";
